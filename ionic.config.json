@@ -1,0 +1,7 @@
+{
+  "name": "shertest2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
