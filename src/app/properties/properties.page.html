@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>properties</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let property of properties$ | async">
+    <div>
+      {{ property.surface }}
+    </div>
+    <ion-row>
+      <ion-col
+        size="6"
+        *ngFor="let url of property.imageUrls"
+      >
+        <ion-img [src]="url"></ion-img>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

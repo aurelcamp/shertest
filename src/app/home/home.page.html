@@ -14,7 +14,25 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <li *ngFor="let mission of items$ | async">
+      {{ mission.description }}
+    </li>
+
+    <div>
+      <a routerLink="/property-new">Nouveau bien</a>
+    </div>
+    <div>
+      <a routerLink="/properties">Biens</a>
+    </div>
+
+    <div>
+      <a routerLink="/login">Login</a>
+    </div>
+    <div>
+      <a routerLink="/signup">Signup</a>
+    </div>
+    <div>
+      <a routerLink="/users">Users</a>
+    </div>
   </div>
 </ion-content>
