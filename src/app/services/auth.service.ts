@@ -22,6 +22,8 @@ import { Platform } from '@ionic/angular';
 import { FacebookLogin, FacebookLoginResponse } from '@capacitor-community/facebook-login';
 import { UserService } from './user.service';
 
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +43,11 @@ export class AuthService {
     // private pushNotificationService: PushNotificationService,
     // private cacheService: CacheService<any>,
   ) {
+
+    if (!this.platform.is('hybrid')) {
+      GoogleAuth.init();
+    }
+
     this.afAuth.authState.subscribe(async (user) => {
       if (user) {     
         console.log(user);
@@ -169,7 +176,7 @@ export class AuthService {
 
   async nativeFacebookAuth(): Promise<void> {
     try {
-      const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
+      const FACEBOOK_PERMISSIONS = ['email'];
       const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
 
       console.log(result);
@@ -177,6 +184,11 @@ export class AuthService {
       if (result.accessToken) {
         // Login successful.
         console.log(`Facebook access token is ${result.accessToken.token}`);
+        const credential = firebase.auth.FacebookAuthProvider.credential(result.accessToken.token);
+          this.afAuth.signInWithCredential(credential)
+            .then((response) => {
+              console.log(response);
+            });
       }
       
     } catch (err) {
@@ -233,6 +245,48 @@ export class AuthService {
     }
     return false;
   }
+
+
+  checkGoogleLoggedIn() {
+    GoogleAuth.refresh().then((data) => {
+      console.log(data);
+      if (data.accessToken) {
+        
+      }
+    }).catch(e => {
+      if (e.type === 'userLoggedOut') {
+        // this.googleLogin();
+      }
+    });
+  }
+  async googleLogin() {
+    // if (!this.platform.is('hybrid')) {
+    //   GoogleAuth.init();
+    // }
+
+    const user = await GoogleAuth.signIn();
+    console.log(user);
+    const accessToken = user.authentication.idToken;
+    const accessSecret = user.authentication.accessToken;
+    const credential = accessSecret ? firebase.auth.GoogleAuthProvider
+      .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
+      .credential(accessToken);
+    this.afAuth.signInWithCredential(credential)
+      .then((success) => {
+        // this.user =  success.user;
+        console.log(success);
+      });
+  }
+
+  googleLogout() {
+    GoogleAuth.signOut().then(() => {
+      console.log('google logout');
+    })
+    .catch((e) => console.log(e));
+  }
+
+
+
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {

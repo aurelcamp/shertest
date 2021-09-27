@@ -2,5 +2,12 @@
 	"appId": "io.ionic.shertest2",
 	"appName": "shertest2",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "114474360091-75vpcftaf2u1rilj1k7mqk99t3ah73u5.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  }
 }

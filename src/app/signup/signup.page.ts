@@ -32,4 +32,16 @@ export class SignupPage implements OnInit {
     this.authService.facebookLogin();
   }
 
+  // checkGoogleLoggedIn() {
+  //   this.authService.checkGoogleLoggedIn();
+  // }
+
+  googleLogin() {
+    this.authService.googleLogin();
+  }
+
+  googleLogout() {
+    this.authService.googleLogout();
+  }
+
 }

@@ -15,6 +15,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
+import { Calendar } from '@ionic-native/calendar/ngx';
+
 // import { Facebook } from '@ionic-native/facebook/ngx';
 
 @NgModule({
@@ -32,7 +34,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
   ],
   providers: [
     // Facebook,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Calendar
   ],
   bootstrap: [AppComponent],
 })

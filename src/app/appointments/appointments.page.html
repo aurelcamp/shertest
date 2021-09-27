@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rendez-vous</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <p>
+    {{ loggedInUser?.email }}
+  </p>
+
+  <p>
+    Liste des rendez-vous
+  </p>
+  <ion-list>
+    <ion-item *ngFor="let appointment of (appointments$ | async)">
+      <ion-label>{{ appointment.senderId }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-label>Choisir autre</ion-label>
+    <ion-select [(ngModel)]="otherUser">
+      <ion-select-option *ngFor="let user of (users$ | async); let i = index" [value]="user">
+        {{ user.email }} 
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>De</ion-label>
+    <ion-datetime displayFormat="YYYY MM DD HH:mm" placeholder="Select Date" [(ngModel)]="dateStart"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>A</ion-label>
+    <ion-datetime displayFormat="YYYY MM DD HH:mm" placeholder="Select Date" [(ngModel)]="dateEnd"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-button (click)="validate()">
+      Valider
+    </ion-button>
+  </ion-item>
+
+  <div>
+    <a routerLink="/home">Accueil</a>
+  </div>
+</ion-content>
