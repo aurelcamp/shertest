@@ -24,6 +24,12 @@ import { UserService } from './user.service';
 
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
+import {
+  SignInWithApple,
+  SignInWithAppleResponse,
+  SignInWithAppleOptions,
+} from '@capacitor-community/apple-sign-in';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -283,6 +289,39 @@ export class AuthService {
       console.log('google logout');
     })
     .catch((e) => console.log(e));
+  }
+
+  appleLogin() {
+    let options: SignInWithAppleOptions = {
+      clientId: 'app.web.dosomething-4154d',
+      redirectURI: 'https://dosomething-4154d.firebaseapp.com/__/auth/handler',
+      scopes: 'email name',
+      state: '12345',
+      // nonce: 'nonce',
+    };
+    SignInWithApple.authorize(options)
+    .then((result: SignInWithAppleResponse) => {
+      console.log(result);
+      const provider = new firebase.auth.OAuthProvider('apple.com');
+      const credential = provider.credential({
+        idToken: result.response.identityToken,
+      })
+      console.log(credential);
+      this.afAuth.signInWithCredential(credential)
+      .then((success) => {
+        // this.user =  success.user;
+        console.log(success);
+        const user = {
+          userAuthId: success.user.uid
+        }
+        this.afs.collection<User>('users').doc(success.user.uid).set(user as any);
+      });
+      // Handle user information
+      // Validate token with server and create new session
+    })
+    .catch(error => {
+      // Handle error
+    });
   }
 
 

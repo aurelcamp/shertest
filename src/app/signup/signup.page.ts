@@ -39,9 +39,12 @@ export class SignupPage implements OnInit {
   googleLogin() {
     this.authService.googleLogin();
   }
-
   googleLogout() {
     this.authService.googleLogout();
+  }
+
+  appleLogin() {
+    this.authService.appleLogin();
   }
 
 }
